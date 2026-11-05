@@ -1,0 +1,74 @@
+PS C:\RS_Project> .\.venv\Scripts\python.exe scripts/hybrid_benchmarks.py
+================================================================================
+HYBRID EVALUATION ON MOVIELENS (Validation Split)
+================================================================================
+Fitting ItemBasedCF base model...
+Fitting ContentBased base model...
+
+Tuning k0 over grid (1, 2, 5, 10, 20, 50, 100)...
+-> Selected best k0 for movielens: 20.0
+
+--- movielens k0 Tuning Grid Results ---
+ k0  val_rmse  val_ndcg@10
+  1    0.9707       0.0012
+  2    0.9693       0.0020
+  5    0.9664       0.0026
+ 10    0.9638       0.0045
+ 20    0.9625       0.0087
+ 50    0.9669       0.0120
+100    0.9774       0.0143
+
+--- movielens Alpha Distribution (k0=20.0) ---
+  Min:    0.4286
+  Median: 0.7059
+  Mean:   0.6938
+  Max:    0.9637
+  Share with alpha < 0.5: 16.54%
+[movielens] cf_only              | RMSE: 0.9723 | NDCG@10: 0.0012 | Cov@10: 0.1629
+[movielens] content_only         | RMSE: 1.0753 | NDCG@10: 0.0164 | Cov@10: 0.4685
+[movielens] fixed_0.5            | RMSE: 0.9748 | NDCG@10: 0.0134 | Cov@10: 0.3270
+[movielens] adaptive_k0=20.0     | RMSE: 0.9625 | NDCG@10: 0.0087 | Cov@10: 0.3002
+================================================================================
+HYBRID EVALUATION ON FOODCOM (Validation Split)
+================================================================================
+Fitting ItemBasedCF base model...
+Fitting ContentBased base model...
+
+Tuning k0 over grid (1, 2, 5, 10, 20, 50, 100)...
+-> Selected best k0 for foodcom: 100.0
+
+--- foodcom k0 Tuning Grid Results ---
+ k0  val_rmse  val_ndcg@10
+  1    0.6019       0.0016
+  2    0.5977       0.0019
+  5    0.5874       0.0029
+ 10    0.5755       0.0037
+ 20    0.5616       0.0043
+ 50    0.5454       0.0048
+100    0.5377       0.0048
+
+--- foodcom Alpha Distribution (k0=100.0) ---
+  Min:    0.1304
+  Median: 0.2063
+  Mean:   0.2516
+  Max:    0.9204
+  Share with alpha < 0.5: 93.47%
+[foodcom] cf_only              | RMSE: 0.6067 | NDCG@10: 0.0022 | Cov@10: 0.6439
+[foodcom] content_only         | RMSE: 0.5360 | NDCG@10: 0.0049 | Cov@10: 0.2849
+[foodcom] fixed_0.5            | RMSE: 0.5398 | NDCG@10: 0.0048 | Cov@10: 0.3986
+[foodcom] adaptive_k0=100.0    | RMSE: 0.5377 | NDCG@10: 0.0048 | Cov@10: 0.3039
+
+==========================================================================================
+HYBRID ABLATION RESULTS ON VALIDATION SPLIT
+==========================================================================================
+  Dataset              Mode  Val_RMSE  Val_MAE  Val_P@10  Val_R@10  Val_NDCG@10  Val_Cov@10   Eval_s
+movielens           cf_only    0.9723   0.7652    0.0007    0.0013       0.0012      0.1629   7.4250
+movielens      content_only    1.0753   0.8504    0.0082    0.0210       0.0164      0.4685   3.2614
+movielens         fixed_0.5    0.9748   0.7746    0.0085    0.0210       0.0134      0.3270 239.4617
+movielens  adaptive_k0=20.0    0.9625   0.7620    0.0047    0.0149       0.0087      0.3002 241.4390
+  foodcom           cf_only    0.6067   0.4026    0.0015    0.0029       0.0022      0.6439  14.4123
+  foodcom      content_only    0.5360   0.3421    0.0027    0.0065       0.0049      0.2849   5.4026
+  foodcom         fixed_0.5    0.5398   0.3698    0.0023    0.0063       0.0048      0.3986  19.9594
+  foodcom adaptive_k0=100.0    0.5377   0.3626    0.0025    0.0062       0.0048      0.3039  19.8859
+
+Saved summary to results\hybrid_val_results.csv

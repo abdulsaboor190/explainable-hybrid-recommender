@@ -142,3 +142,4 @@ def test_intra_list_diversity_toy():
     }
     ild = intra_list_diversity(recs, vectors)
     assert np.isclose(ild, 1.0)
+

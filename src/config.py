@@ -37,3 +37,4 @@ DATASET_CONFIGS = {
     "movielens": MOVIELENS_CONFIG,
     "foodcom": FOODCOM_CONFIG,
 }
+

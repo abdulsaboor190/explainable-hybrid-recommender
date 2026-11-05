@@ -79,3 +79,4 @@ Food.com stores keyword and ingredient lists as R character vectors: `c("item1",
 | `pytest -q` passes all tests | ✅ 27/27 passed in 1.31 s |
 | Random seed = 42 used in all stochastic steps | ✅ |
 | No raw data committed to git | ✅ `data/` in `.gitignore` |
+

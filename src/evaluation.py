@@ -210,3 +210,4 @@ def evaluate_model(
             results[f"diversity@{k}"] = intra_list_diversity(recs_at_k, item_vectors)
             
     return results
+
