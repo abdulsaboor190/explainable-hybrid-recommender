@@ -14,12 +14,14 @@ env/
 *.pickle
 *.npz
 
-# Results cache & temporary outputs
-results/*
-!results/.gitkeep
+# Results cache & temporary outputs — ignore large caches but keep CSVs/figures/MD
+results/*.pkl
+results/*.npz
+results/.cache/
 
 # IDE / OS
 .vscode/
 .idea/
 .DS_Store
 Thumbs.db
+
