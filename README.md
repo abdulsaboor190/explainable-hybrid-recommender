@@ -33,6 +33,13 @@ The project implements classical, fully transparent recommendation algorithms:
    pip install -r requirements.txt
    ```
 
+4. **Run the full Phase 1 pipeline** (preprocessing → splits → statistics):
+   ```bash
+   python -m src.run_phase1
+   ```
+   This requires both datasets to be downloaded first (see **Data download** below).
+   Outputs are written to `data/processed/` and `results/`.
+
 ---
 
 ## Data download
