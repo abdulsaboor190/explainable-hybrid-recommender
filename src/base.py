@@ -92,3 +92,4 @@ class BaseRecommender(ABC):
             or baseline tendencies).
         """
         pass
+

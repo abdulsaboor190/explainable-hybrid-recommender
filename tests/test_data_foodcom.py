@@ -139,3 +139,4 @@ def test_filter_info_counts_monotone(filter_info):
     assert af["recipes"] <= bf["recipes"], "Recipes increased after filter"
     assert af["ratings"] <= bf["ratings"], "Ratings increased after filter"
     assert afs["users"]  <= af["users"],   "Users increased after sampling"
+
