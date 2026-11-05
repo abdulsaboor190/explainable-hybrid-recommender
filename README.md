@@ -45,3 +45,4 @@ The project implements classical, fully transparent recommendation algorithms:
 - Download `recipes.csv` and `reviews.csv` from Kaggle:
   https://www.kaggle.com/datasets/irkaal/foodcom-recipes-and-reviews
 - Place both files directly into `data/raw/foodcom/` (`data/raw/foodcom/recipes.csv` and `data/raw/foodcom/reviews.csv`).
+

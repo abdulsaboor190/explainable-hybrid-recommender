@@ -186,3 +186,4 @@ if __name__ == "__main__":
         dtype={"user_id": int, "item_id": int, "rating": int, "timestamp": int},
     )
     save_splits(fc_ratings, args.foodcom_dir, dataset_name="Food.com")
+

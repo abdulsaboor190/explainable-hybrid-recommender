@@ -117,3 +117,4 @@ def test_required_columns_items(items_df):
     assert required.issubset(items_df.columns), (
         f"Missing columns: {required - set(items_df.columns)}"
     )
+
