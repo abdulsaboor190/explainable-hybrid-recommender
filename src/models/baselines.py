@@ -236,3 +236,4 @@ class Popularity(BaseRecommender):
         if count > 0:
             return f"Recommended because it is popular and has been rated by {count:,} users."
         return f"Recommended using global fallback baseline as this item is unobserved."
+
