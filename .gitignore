@@ -1,0 +1,25 @@
+# Data
+data/
+
+# Python / Virtual Environment
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# Model and matrix serialization
+*.pkl
+*.pickle
+*.npz
+
+# Results cache & temporary outputs
+results/*
+!results/.gitkeep
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
