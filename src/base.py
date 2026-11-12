@@ -93,3 +93,15 @@ class BaseRecommender(ABC):
         """
         pass
 
+    def explain_structured(self, user: Any, item: Any, **kwargs: Any) -> dict:
+        """Generate a structured dictionary explaining the prediction.
+
+        Returns
+        -------
+        dict
+            Structured representation containing component, alpha, and reasons.
+        """
+        from src.explanations import explain_structured as _explain_structured
+        return _explain_structured(self, user, item, **kwargs)
+
+

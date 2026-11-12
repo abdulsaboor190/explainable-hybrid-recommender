@@ -42,9 +42,16 @@ class GlobalMean(BaseRecommender):
         cands = [item for item in self.all_items_ if item not in seen]
         return [(item, self.global_mean_) for item in cands[:n]]
 
-    def explain(self, user: Any, item: Any) -> str:
+    def explain(self, user: Any, item: Any, **kwargs: Any) -> str:
         """Explain recommendation."""
-        return f"Recommended using global average rating across all items ({self.global_mean_:.2f})."
+        from src.explanations import explain as _explain
+        return _explain(self, user, item, **kwargs)
+
+    def explain_structured(self, user: Any, item: Any, **kwargs: Any) -> dict:
+        """Structured explanation for recommendation."""
+        from src.explanations import explain_structured as _explain_structured
+        return _explain_structured(self, user, item, **kwargs)
+
 
 
 class UserMean(BaseRecommender):
@@ -89,11 +96,16 @@ class UserMean(BaseRecommender):
         cands = [item for item in self.all_items_ if item not in seen]
         return [(item, pred) for item in cands[:n]]
 
-    def explain(self, user: Any, item: Any) -> str:
+    def explain(self, user: Any, item: Any, **kwargs: Any) -> str:
         """Explain recommendation."""
-        if user in self.user_means_:
-            return f"Recommended based on user's personal average rating tendency ({self.user_means_[user]:.2f})."
-        return f"Recommended using global training average ({self.global_mean_:.2f}) as user has no interaction history."
+        from src.explanations import explain as _explain
+        return _explain(self, user, item, **kwargs)
+
+    def explain_structured(self, user: Any, item: Any, **kwargs: Any) -> dict:
+        """Structured explanation for recommendation."""
+        from src.explanations import explain_structured as _explain_structured
+        return _explain_structured(self, user, item, **kwargs)
+
 
 
 class ItemMean(BaseRecommender):
@@ -155,13 +167,16 @@ class ItemMean(BaseRecommender):
                     break
         return recs
 
-    def explain(self, user: Any, item: Any) -> str:
+    def explain(self, user: Any, item: Any, **kwargs: Any) -> str:
         """Explain recommendation."""
-        if item in self.item_means_:
-            return f"Recommended based on this item's historical average rating ({self.item_means_[item]:.2f})."
-        if user in self.user_means_:
-            return f"Recommended using user's average rating ({self.user_means_[user]:.2f}) as item history is unavailable."
-        return f"Recommended using global average ({self.global_mean_:.2f}) as both item and user history are unavailable."
+        from src.explanations import explain as _explain
+        return _explain(self, user, item, **kwargs)
+
+    def explain_structured(self, user: Any, item: Any, **kwargs: Any) -> dict:
+        """Structured explanation for recommendation."""
+        from src.explanations import explain_structured as _explain_structured
+        return _explain_structured(self, user, item, **kwargs)
+
 
 
 class Popularity(BaseRecommender):
@@ -230,10 +245,14 @@ class Popularity(BaseRecommender):
                     break
         return recs
 
-    def explain(self, user: Any, item: Any) -> str:
+    def explain(self, user: Any, item: Any, **kwargs: Any) -> str:
         """Explain recommendation."""
-        count = self.item_counts_.get(item, 0)
-        if count > 0:
-            return f"Recommended because it is popular and has been rated by {count:,} users."
-        return f"Recommended using global fallback baseline as this item is unobserved."
+        from src.explanations import explain as _explain
+        return _explain(self, user, item, **kwargs)
+
+    def explain_structured(self, user: Any, item: Any, **kwargs: Any) -> dict:
+        """Structured explanation for recommendation."""
+        from src.explanations import explain_structured as _explain_structured
+        return _explain_structured(self, user, item, **kwargs)
+
 

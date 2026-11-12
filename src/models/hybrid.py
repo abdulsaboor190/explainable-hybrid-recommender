@@ -271,15 +271,16 @@ class HybridRecommender(BaseRecommender):
             if hybrid_scores[idx] >= 0.0
         ]
 
-    def explain(self, user: Any, item: Any) -> str:
-        """Transparent explanation combining CF and Content perspectives."""
-        alpha = self.get_alpha(user)
-        if alpha >= 0.5:
-            cf_exp = self.cf_model.explain(user, item)
-            return f"Hybrid recommendation (CF dominated, alpha={alpha:.2f}): {cf_exp}"
-        else:
-            content_exp = self.content_model.explain(user, item)
-            return f"Hybrid recommendation (Content dominated, alpha={alpha:.2f}): {content_exp}"
+    def explain(self, user: Any, item: Any, **kwargs: Any) -> str:
+        """Transparent, human-readable explanation combining CF and Content perspectives."""
+        from src.explanations import explain as _explain
+        return _explain(self, user, item, **kwargs)
+
+    def explain_structured(self, user: Any, item: Any, **kwargs: Any) -> dict:
+        """Structured explanation combining CF and Content perspectives."""
+        from src.explanations import explain_structured as _explain_structured
+        return _explain_structured(self, user, item, **kwargs)
+
 
     def alpha_distribution(self) -> Dict[str, Any]:
         """Compute summary statistics for alpha values across all known training users."""

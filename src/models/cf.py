@@ -339,13 +339,16 @@ class UserBasedCF(BaseRecommender):
             if scores[idx] >= 1.0
         ]
 
-    def explain(self, user: Any, item: Any) -> str:
-        """Placeholder explanation based on neighbor consensus."""
-        contribs = self.get_contributions(user, item)
-        if contribs:
-            top_neighbor, sim_val, _ = contribs[0]
-            return f"Recommended by UserBasedCF ({self.similarity}) based on consensus from {len(contribs)} similar users, notably user {top_neighbor} (similarity {sim_val:.2f})."
-        return f"Recommended using user average rating ({self.predict(user, item):.2f}) as no similar neighbors rated this item."
+    def explain(self, user: Any, item: Any, **kwargs: Any) -> str:
+        """Transparent, human-readable explanation based on neighbor consensus."""
+        from src.explanations import explain as _explain
+        return _explain(self, user, item, **kwargs)
+
+    def explain_structured(self, user: Any, item: Any, **kwargs: Any) -> dict:
+        """Structured explanation based on neighbor consensus."""
+        from src.explanations import explain_structured as _explain_structured
+        return _explain_structured(self, user, item, **kwargs)
+
 
     def save(self, path: str | Path) -> None:
         """Serialize model to disk using joblib."""
@@ -658,13 +661,16 @@ class ItemBasedCF(BaseRecommender):
             if scores[idx] >= 1.0
         ]
 
-    def explain(self, user: Any, item: Any) -> str:
-        """Placeholder explanation based on item similarities."""
-        contribs = self.get_contributions(user, item)
-        if contribs:
-            top_item, sim_val, _ = contribs[0]
-            return f"Recommended by ItemBasedCF ({self.similarity}) because it is similar to item {top_item} you rated (similarity {sim_val:.2f})."
-        return f"Recommended based on item average ({self.predict(user, item):.2f})."
+    def explain(self, user: Any, item: Any, **kwargs: Any) -> str:
+        """Transparent, human-readable explanation based on item similarities."""
+        from src.explanations import explain as _explain
+        return _explain(self, user, item, **kwargs)
+
+    def explain_structured(self, user: Any, item: Any, **kwargs: Any) -> dict:
+        """Structured explanation based on item similarities."""
+        from src.explanations import explain_structured as _explain_structured
+        return _explain_structured(self, user, item, **kwargs)
+
 
     def save(self, path: str | Path) -> None:
         """Serialize model to disk."""

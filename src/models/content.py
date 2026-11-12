@@ -266,14 +266,16 @@ class ContentBased(BaseRecommender):
         results.sort(key=lambda x: -x[1])
         return results[:n]
 
-    def explain(self, user: Any, item: Any) -> str:
-        """Transparent explanation of why item matches user's content profile."""
-        top_terms = self.get_top_terms(user, item, n=3)
-        sim_items = self.get_similar_rated_items(user, item, n=2)
+    def explain(self, user: Any, item: Any, **kwargs: Any) -> str:
+        """Transparent, human-readable explanation matching content profile."""
+        from src.explanations import explain as _explain
+        return _explain(self, user, item, **kwargs)
 
-        terms_str = ", ".join([f"'{t}'" for t, _ in top_terms]) if top_terms else "general features"
-        sim_str = f" and items you liked previously" if sim_items else ""
-        return f"Recommended by ContentBased because it shares key attributes ({terms_str}){sim_str} matching your preferences."
+    def explain_structured(self, user: Any, item: Any, **kwargs: Any) -> dict:
+        """Structured explanation matching content profile."""
+        from src.explanations import explain_structured as _explain_structured
+        return _explain_structured(self, user, item, **kwargs)
+
 
     def save(self, path: str | Path) -> None:
         """Serialize model to disk using joblib."""

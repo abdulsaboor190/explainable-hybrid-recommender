@@ -38,3 +38,10 @@ DATASET_CONFIGS = {
     "foodcom": FOODCOM_CONFIG,
 }
 
+
+def get_item_name_map(dataset_name: str = "movielens"):
+    """Helper mapping item_id -> display name for each dataset."""
+    from src.items import get_item_name_map as _get_map
+    return _get_map(dataset_name)
+
+
