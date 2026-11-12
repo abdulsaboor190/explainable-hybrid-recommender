@@ -48,6 +48,8 @@ def test_build_models_returns_all_expected_models():
             "user_mean",
             "item_mean",
             "popularity",
+            "user_cf",
+            "item_cf",
             "cf",
             "content",
             "hybrid_cf_only",
@@ -76,3 +78,4 @@ def test_build_models_invalid_inputs():
 
     with pytest.raises(ValueError, match="fit_on must be"):
         build_models("movielens", fit_on="invalid_split")
+

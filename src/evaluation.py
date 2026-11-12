@@ -172,10 +172,19 @@ def evaluate_model(
     item_vectors: Optional[Dict[Any, np.ndarray]] = None,
 ) -> Dict[str, float]:
     """Execute complete standardized evaluation on test set."""
-    # 1. Rating prediction metrics
+    # 1. Rating prediction metrics (computed in a single pass over test interactions)
+    preds = np.clip(
+        np.array([
+            model.predict(u, i)
+            for u, i in zip(test_df["user_id"], test_df["item_id"])
+        ]),
+        1.0, 5.0
+    )
+    actuals = test_df["rating"].to_numpy(dtype=float)
+    err = preds - actuals
     results: Dict[str, float] = {
-        "rmse": rmse(model, test_df),
-        "mae": mae(model, test_df),
+        "rmse": float(np.sqrt(np.mean(err ** 2))) if len(test_df) > 0 else 0.0,
+        "mae": float(np.mean(np.abs(err))) if len(test_df) > 0 else 0.0,
     }
     
     # 2. Cold-start item evaluation

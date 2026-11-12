@@ -206,22 +206,25 @@ def build_models(
     pop = Popularity()
     pop.fit(fit_df)
 
-    # B. Collaborative Filtering
-    if cfg.cf_type == "user_based":
-        cf_model: BaseRecommender = UserBasedCF(
-            similarity=cfg.cf_similarity,
-            k=cfg.cf_k,
-            min_overlap=cfg.min_overlap,
-            shrinkage=cfg.shrinkage,
-        )
-    else:
-        cf_model = ItemBasedCF(
-            similarity=cfg.cf_similarity,
-            k=cfg.cf_k,
-            min_overlap=cfg.min_overlap,
-            shrinkage=cfg.shrinkage,
-        )
-    cf_model.fit(fit_df)
+    # B. Collaborative Filtering (both User-Based and Item-Based for full evaluation)
+    user_cf = UserBasedCF(
+        similarity=cfg.cf_similarity,
+        k=cfg.cf_k,
+        min_overlap=cfg.min_overlap,
+        shrinkage=cfg.shrinkage,
+    )
+    user_cf.fit(fit_df)
+
+    item_cf = ItemBasedCF(
+        similarity=cfg.cf_similarity,
+        k=cfg.cf_k,
+        min_overlap=cfg.min_overlap,
+        shrinkage=cfg.shrinkage,
+    )
+    item_cf.fit(fit_df)
+
+    # Primary CF model based on config choice
+    cf_model = item_cf if cfg.cf_type == "item_based" else user_cf
 
     # C. Content-Based
     content_model = ContentBased(
@@ -250,6 +253,8 @@ def build_models(
         "user_mean": um,
         "item_mean": im,
         "popularity": pop,
+        "user_cf": user_cf,
+        "item_cf": item_cf,
         "cf": cf_model,
         "content": content_model,
         "hybrid_cf_only": hyb_cf,
@@ -274,3 +279,4 @@ def build_models(
         print(f"Warning: Failed to save models cache to {cache_file}: {e}")
 
     return models_dict
+

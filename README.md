@@ -59,6 +59,20 @@ python -m src.build_models --dataset foodcom --fit-on train_val
 python -m src.build_models --dataset movielens --force
 ```
 
+### Phase 2 Full Verification (Sanity Tables + Exit Criteria)
+
+Run the complete Phase 2 verification for both datasets:
+
+```bash
+python -m src.run_phase2
+```
+
+This command:
+1. Builds all models on `train_val` (from cache if available).
+2. Evaluates all models on the held-out TEST split (RMSE, MAE, P@5, P@10, R@10, NDCG@10).
+3. Saves tables to `results/phase2_sanity_movielens.csv` and `results/phase2_sanity_foodcom.csv`.
+4. Runs all 8 Phase 2 exit criteria checks and reports PASS/FAIL.
+
 ### Evaluation Protocol Convention: Train -> Val -> Train+Val Refit
 
 The project strictly adheres to rigorous evaluation partitioning:
