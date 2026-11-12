@@ -19,6 +19,10 @@ results/*.pkl
 results/*.npz
 results/.cache/
 
+# Scratch & Temporary
+brain/
+scratch/
+
 # IDE / OS
 .vscode/
 .idea/
