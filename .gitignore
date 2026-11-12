@@ -13,6 +13,9 @@ env/
 *.pkl
 *.pickle
 *.npz
+*.joblib
+data/cache/
+Data/cache/
 
 # Results cache & temporary outputs — ignore large caches but keep CSVs/figures/MD
 results/*.pkl

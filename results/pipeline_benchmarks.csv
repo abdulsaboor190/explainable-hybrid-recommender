@@ -1,0 +1,3 @@
+Dataset,Cold Build (train),Cached Load (train),Cold Build (train_val),Cached Load (train_val),Rec+Explain (top-1),Rec+Explain (all 10),Target (<1000 ms)
+MovieLens 100K,1.743s,0.474s,1.823s,0.521s,3.79 ms/user,8.08 ms/user,PASSED
+Food.com,4.392s,1.237s,5.302s,1.550s,5.54 ms/user,10.94 ms/user,PASSED
