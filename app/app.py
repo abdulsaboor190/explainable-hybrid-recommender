@@ -101,6 +101,7 @@ dataset_choice = st.sidebar.selectbox(
     "Select Dataset Domain:",
     options=["Food.com Recipes (Primary)", "MovieLens 100K (Benchmark)"],
     index=0,
+    key="sb_dataset_domain",
 )
 dataset_key = "foodcom" if "Food.com" in dataset_choice else "movielens"
 
@@ -127,11 +128,19 @@ selected_archetype = st.sidebar.selectbox(
     options=archetype_options,
     index=1,  # Default to low-activity user
     help="Archetypes chosen deterministically based on empirical activity quantiles.",
+    key=f"sb_archetype_{dataset_key}",
 )
 
 if selected_archetype == "Custom User ID...":
     default_uid = all_users[0] if all_users else 1
-    user_id = int(st.sidebar.number_input("Enter User ID:", min_value=1, max_value=max(all_users) if all_users else 1000000, value=default_uid, step=1))
+    user_id = int(st.sidebar.number_input(
+        "Enter User ID:",
+        min_value=1,
+        max_value=max(all_users) if all_users else 1000000,
+        value=default_uid,
+        step=1,
+        key=f"num_custom_user_{dataset_key}",
+    ))
 else:
     user_id = archetypes[selected_archetype]
     st.sidebar.caption(f"Selected User ID: **{user_id}**")
@@ -149,12 +158,20 @@ selected_model_name = st.sidebar.selectbox(
     "Active Model:",
     options=list(model_options.keys()),
     index=0,
+    key="sb_active_model",
 )
 active_model_key = model_options[selected_model_name]
 active_model = models[active_model_key]
 
 # 4. Number of recommendations
-top_n = st.sidebar.slider("Number of Recommendations (N):", min_value=5, max_value=20, value=10, step=1)
+top_n = st.sidebar.slider(
+    "Number of Recommendations (N):",
+    min_value=5,
+    max_value=20,
+    value=10,
+    step=1,
+    key="sld_top_n",
+)
 
 # 5. Recipe Options (Food.com only)
 filters_dict = {}
@@ -167,6 +184,7 @@ if dataset_key == "foodcom":
             "Dietary Restriction:",
             options=["None", "Vegetarian", "Vegan", "Gluten-Free", "Nut-Free", "Dairy-Free"],
             index=0,
+            key="sb_recipe_diet",
         )
         if diet_choice != "None":
             # Map to backend parameter format
@@ -175,20 +193,40 @@ if dataset_key == "foodcom":
 
         # Max cooking time slider with "no limit" checkbox
         col_t1, col_t2 = st.columns([2, 1])
-        limit_time = col_t2.checkbox("Limit time", value=False)
-        max_time_val = col_t1.slider("Max Time (mins):", min_value=15, max_value=240, value=60, step=15, disabled=not limit_time)
+        limit_time = col_t2.checkbox("Limit time", value=False, key="cb_limit_time")
+        max_time_val = col_t1.slider(
+            "Max Time (mins):",
+            min_value=15,
+            max_value=240,
+            value=60,
+            step=15,
+            disabled=not limit_time,
+            key="sld_max_time",
+        )
         if limit_time:
             filters_dict["max_minutes"] = max_time_val
 
         # Max calories slider with "no limit" checkbox
         col_c1, col_c2 = st.columns([2, 1])
-        limit_cal = col_c2.checkbox("Limit cal", value=False)
-        max_cal_val = col_c1.slider("Max Calories (kcal):", min_value=100, max_value=1500, value=600, step=50, disabled=not limit_cal)
+        limit_cal = col_c2.checkbox("Limit cal", value=False, key="cb_limit_cal")
+        max_cal_val = col_c1.slider(
+            "Max Calories (kcal):",
+            min_value=100,
+            max_value=1500,
+            value=600,
+            step=50,
+            disabled=not limit_cal,
+            key="sld_max_cal",
+        )
         if limit_cal:
             filters_dict["max_calories"] = max_cal_val
 
         # Disliked ingredients
-        disliked_raw = st.text_input("Disliked Ingredients (comma-separated):", placeholder="e.g. mushrooms, cilantro")
+        disliked_raw = st.text_input(
+            "Disliked Ingredients (comma-separated):",
+            placeholder="e.g. mushrooms, cilantro",
+            key="ti_disliked_ingredients",
+        )
         if disliked_raw.strip():
             disliked_list = [x.strip() for x in disliked_raw.split(",") if x.strip()]
             if disliked_list:
@@ -199,6 +237,7 @@ if dataset_key == "foodcom":
             "Ingredients I have on hand:",
             placeholder="e.g. chicken breast, garlic, olive oil, onion, rice",
             help="Matches available ingredients against recipe lists, calculating ingredient coverage % and surfacing missing items.",
+            key="ta_kitchen_ingredients",
         )
 
 # ---------------------------------------------------------------------------
