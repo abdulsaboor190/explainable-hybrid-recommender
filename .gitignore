@@ -32,3 +32,6 @@ scratch/
 .DS_Store
 Thumbs.db
 
+
+.matplotlib_cache/
+
