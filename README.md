@@ -81,6 +81,32 @@ The project strictly adheres to rigorous evaluation partitioning:
 
 ---
 
+## Streamlit Interactive Demo Application
+
+An interactive web application allows instructors and evaluators to explore user rating histories, inspect personalized recommendations with transparent structured explanations, compare multiple recommendation models side-by-side, filter by dietary requirements and nutritional constraints, and experiment with pantry kitchen mode.
+
+### Running the Demo App
+
+You can launch the app directly with Streamlit:
+```bash
+streamlit run app/app.py
+```
+
+Or using the automated wrapper which checks/builds pipeline caches first:
+```bash
+python -m src.run_app
+```
+
+### Key Demo Features:
+- **Sidebar**: Domain picker (Food.com Recipes vs. MovieLens 100K), user selector with dynamic empirical archetypes (*Low-activity user*, *Mid-activity user*, *Heavy user*) plus arbitrary custom User ID input, model selector (`Adaptive Hybrid`, `Fixed Hybrid`, `CF Only`, `Content Only`, `Popularity`), and top-$N$ recommendation slider.
+- **Recipe Options (Food.com)**: Dietary restrictions (Vegetarian, Vegan, Gluten-Free, Nut-Free, Dairy-Free), max prep time slider, max calorie slider, excluded ingredients list, and **Kitchen Mode** pantry ingredient matching.
+- **Main Tabs**:
+  - **User Profile**: Complete rating history sorted by rating, with rating count and plain-English adaptive weight explanation ($\alpha_u$).
+  - **Recommendations & Explanations**: Top-$N$ list displaying predicted rating (1 to 5 stars), prep time, calories, categories, kitchen overlap %, and structured natural-language explanations.
+  - **Compare Models**: Side-by-side Top-5 recommendations across all 5 models under the same active filter constraints.
+
+---
+
 ## Benchmarking & Performance
 
 Run the systematic pipeline benchmark:
