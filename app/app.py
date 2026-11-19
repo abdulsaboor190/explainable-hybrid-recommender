@@ -23,6 +23,17 @@ for p in [str(PROJECT_ROOT), str(APP_DIR)]:
         sys.path.insert(0, p)
 
 import streamlit as st
+
+# ---------------------------------------------------------------------------
+# Page Configuration (Must be very first Streamlit command)
+# ---------------------------------------------------------------------------
+st.set_page_config(
+    page_title="Explainable Hybrid Recommender",
+    page_icon="🍳",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
 import pandas as pd
 
 try:
@@ -41,16 +52,6 @@ except ModuleNotFoundError:
         get_recommendations_for_model,
         get_user_profile,
     )
-
-# ---------------------------------------------------------------------------
-# Page Configuration
-# ---------------------------------------------------------------------------
-st.set_page_config(
-    page_title="Explainable Hybrid Recommender",
-    page_icon="🍳",
-    layout="wide",
-    initial_sidebar_state="expanded",
-)
 
 # Custom light styling
 st.markdown(
@@ -281,13 +282,19 @@ with tab_recs:
                 )
 
                 badges_html = ""
-                if "category" in item:
+                if "category" in item and pd.notna(item["category"]):
                     badges_html += f'<span class="badge">📂 {item["category"]}</span>'
-                if "total_minutes" in item and item["total_minutes"] != "N/A":
-                    badges_html += f'<span class="badge">⏱️ {int(item["total_minutes"])} mins</span>'
-                if "calories" in item and item["calories"] != "N/A":
-                    badges_html += f'<span class="badge">🔥 {int(item["calories"])} kcal</span>'
-                if "genres" in item:
+                if "total_minutes" in item and item["total_minutes"] != "N/A" and pd.notna(item["total_minutes"]):
+                    try:
+                        badges_html += f'<span class="badge">⏱️ {int(float(item["total_minutes"]))} mins</span>'
+                    except (ValueError, TypeError):
+                        pass
+                if "calories" in item and item["calories"] != "N/A" and pd.notna(item["calories"]):
+                    try:
+                        badges_html += f'<span class="badge">🔥 {int(float(item["calories"]))} kcal</span>'
+                    except (ValueError, TypeError):
+                        pass
+                if "genres" in item and pd.notna(item["genres"]):
                     badges_html += f'<span class="badge">🎭 {item["genres"]}</span>'
 
                 if badges_html:
