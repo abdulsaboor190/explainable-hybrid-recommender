@@ -18,9 +18,10 @@ from pathlib import Path
 # Add project root and app directory to sys.path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 APP_DIR = Path(__file__).resolve().parent
-for p in [str(PROJECT_ROOT), str(APP_DIR)]:
-    if p not in sys.path:
-        sys.path.insert(0, p)
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+if str(APP_DIR) not in sys.path:
+    sys.path.append(str(APP_DIR))
 
 import streamlit as st
 
@@ -44,7 +45,7 @@ try:
         get_recommendations_for_model,
         get_user_profile,
     )
-except ModuleNotFoundError:
+except (ImportError, ModuleNotFoundError):
     from helpers import (  # type: ignore
         get_adaptive_alpha_explanation,
         get_cached_data,
