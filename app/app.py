@@ -28,12 +28,15 @@ import streamlit as st
 # ---------------------------------------------------------------------------
 # Page Configuration (Must be very first Streamlit command)
 # ---------------------------------------------------------------------------
-st.set_page_config(
-    page_title="Explainable Hybrid Recommender",
-    page_icon="🍳",
-    layout="wide",
-    initial_sidebar_state="expanded",
-)
+try:
+    st.set_page_config(
+        page_title="Explainable Hybrid Recommender",
+        page_icon="🍳",
+        layout="wide",
+        initial_sidebar_state="expanded",
+    )
+except Exception:
+    pass
 
 import pandas as pd
 
